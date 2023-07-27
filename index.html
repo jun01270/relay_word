@@ -3,13 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>끝말잇기</title>
   </head>
   <body>
     <div>
       <div><span id="order">1</span>번째 참가자</div>
       <div>제시어: <span id="word"></span></div>
-      <input type="text" />
+      <input
+        type="text"
+        onkeydown="if(window.event.keyCode==13){onClickButton()}"
+      />
       <button>제출</button>
     </div>
     <script>
@@ -20,41 +23,39 @@
       const $order = document.querySelector("#order");
       let word; //제시어
       let newWord; //새로 입력한 단어
-      document.querySelector("body > div > input[type=text]");
 
       const onClickButton = () => {
         if (!word) {
           //제시어가 비어 있는가?
-          word = newWord;
-          $word.textContent = word;
-          $input.value = "";
-          $input.focus();
-          order = Number($order.textContent); // 현재 순서
-          if (order + 1 > number) {
-            $order.textContent = 1;
-          } else {
-            $order.textContent = order + 1;
-          }
+          relay();
         } else {
+          // 제시어가 비어있지 않음
           if (word[word.length - 1] === newWord[0]) {
-            word = newWord;
-            $word.textContent = word;
-            $input.value = "";
-            $input.focus();
-            order = Number($order.textContent);
-            if (order + 1 > number) {
-              $order.textContent = 1;
-            } else {
-              $order.textContent = order + 1;
-            }
+            relay();
           } else {
+            alert("패배!!");
+            $order.textContent = 1;
+            $input.value = "";
+            $word.textContent = "";
           }
         }
       };
 
       const onInput = (e) => {
-        console.log(e.target.value);
         newWord = e.target.value;
+      };
+
+      const relay = () => {
+        word = newWord;
+        $word.textContent = word;
+        $input.value = "";
+        $input.focus();
+        order = Number($order.textContent);
+        if (order + 1 > number) {
+          $order.textContent = 1;
+        } else {
+          $order.textContent = order + 1;
+        }
       };
 
       $button.addEventListener("click", onClickButton);
